@@ -1,20 +1,20 @@
 <template>
   <q-item
+    class="text-white"
     clickable
     tag="a"
     target="_blank"
     :href="props.link"
   >
-    <q-item-section
-      v-if="props.icon"
-      avatar
-    >
+    <q-item-section v-if="props.icon" avatar>
       <q-icon :name="props.icon" />
     </q-item-section>
 
     <q-item-section>
       <q-item-label>{{ props.title }}</q-item-label>
-      <q-item-label caption>{{ props.caption }}</q-item-label>
+      <q-item-label class="text-white" caption>{{
+        props.caption
+      }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>
@@ -23,22 +23,22 @@
 const props = defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
 
   caption: {
     type: String,
-    default: ''
+    default: "",
   },
 
   link: {
     type: String,
-    default: '#'
+    default: "#",
   },
 
   icon: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 </script>
