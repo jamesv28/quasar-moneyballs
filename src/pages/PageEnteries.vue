@@ -1,10 +1,17 @@
 <template>
   <div class="q-pa-md">
     <q-list bordered separator>
-      <q-item v-for="entry in entries" :key="entry.id">
+      <q-item
+        v-for="entry in entries"
+        :key="entry.id"
+        class="text-weight-bold"
+        :class="useTextColor(entry.amount)"
+      >
         <q-item-section> {{ entry.name }} </q-item-section>
 
-        <q-item-section side> {{ entry.amount }} </q-item-section>
+        <q-item-section side>
+          {{ usecurrencify(entry.amount) }}
+        </q-item-section>
       </q-item>
     </q-list>
   </div>
@@ -12,6 +19,8 @@
 
 <script setup>
 import { ref } from "vue";
+import { usecurrencify } from "src/use/useCurrency";
+import { useTextColor } from "src/use/useTextColor";
 const entries = ref([
   {
     id: 0,
