@@ -14,6 +14,27 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <q-footer>
+      <div class="row q-pa-sm q-gutter-sm">
+        <div class="col">
+          <q-input outlined label="Name" bg-color="white" dense />
+        </div>
+        <div class="col">
+          <q-input
+            input-class="text-right"
+            outlined
+            label="Amount"
+            bg-color="white"
+            dense
+            type="number"
+            step="0.01"
+          />
+        </div>
+        <div class="col col-auto">
+          <q-btn round color="primary" icon="add" />
+        </div>
+      </div>
+    </q-footer>
   </div>
 </template>
 
