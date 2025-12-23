@@ -14,8 +14,15 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <q-footer>
-      <div class="row q-pa-sm q-gutter-sm">
+
+    <q-footer class="bg-transparent">
+      <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
+        <div class="col text-grey-7 text-h6">Balance:</div>
+        <div :class="useTextColor(balance)" class="col text-h6 text-right">
+          {{ usecurrencify(balance) }}
+        </div>
+      </div>
+      <div class="row q-pa-md q-pb-sm q-gutter-sm bg-primary">
         <div class="col">
           <q-input outlined label="Name" bg-color="white" dense />
         </div>
@@ -39,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { usecurrencify } from "src/use/useCurrency";
 import { useTextColor } from "src/use/useTextColor";
 const entries = ref([
@@ -64,4 +71,10 @@ const entries = ref([
     amount: 0.0,
   },
 ]);
+// balance
+const balance = computed(() => {
+  return entries.value.reduce((acc, { amount }) => {
+    return acc + amount;
+  }, 0);
+});
 </script>
