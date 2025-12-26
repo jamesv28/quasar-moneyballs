@@ -29,6 +29,7 @@
         <div class="col">
           <q-input
             v-model="newEntryForm.name"
+            ref="nameRef"
             outlined
             label="Name"
             bg-color="white"
@@ -37,7 +38,7 @@
         </div>
         <div class="col">
           <q-input
-            v-model="newEntryForm.amount"
+            v-model.number="newEntryForm.amount"
             input-class="text-right"
             outlined
             label="Amount"
@@ -64,7 +65,7 @@ import { useTextColor } from "src/use/useTextColor";
 const entries = ref([
   {
     id: 0,
-    name: "slary",
+    name: "salary",
     amount: 1599.99,
   },
   {
@@ -90,18 +91,25 @@ const balance = computed(() => {
   }, 0);
 });
 
-// add entry
-const newEntryForm = reactive({
+const nameRef = ref(null);
+
+const addEntryformDefault = {
   name: "",
   amount: null,
+};
+// add entry
+const newEntryForm = reactive({
+  ...addEntryformDefault,
 });
 
+const resetEntryForm = () => {
+  Object.assign(newEntryForm, addEntryformDefault);
+  nameRef.value.focus();
+};
+
 const addEntry = () => {
-  const newEntry = {
-    id: uid(),
-    name: newEntryForm.name,
-    amount: newEntryForm.amount,
-  };
+  const newEntry = Object.assign({}, newEntryForm, { id: uid() });
   entries.value.push(newEntry);
+  resetEntryForm();
 };
 </script>
