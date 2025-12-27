@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-list bordered separator>
       <q-slide-item
-        v-for="entry in entries"
+        v-for="entry in storeEntries.entries"
         :key="entry.id"
         @left="onLeftSwipeEntry($event, entry)"
         @right="onRightSwipeEntry($event, entry)"
@@ -28,12 +28,15 @@
     <q-footer class="bg-transparent">
       <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
         <div class="col text-grey-7 text-h6">Balance:</div>
-        <div :class="useTextColor(balance)" class="col text-h6 text-right">
-          {{ usecurrencify(balance) }}
+        <div
+          :class="useTextColor(storeEntries.balance)"
+          class="col text-h6 text-right"
+        >
+          {{ usecurrencify(storeEntries.balance) }}
         </div>
       </div>
       <q-form
-        @submit="addEntry"
+        @submit="addEntryformSubmit"
         class="row q-pa-md q-pb-sm q-gutter-sm bg-primary"
       >
         <div class="col">
@@ -67,40 +70,16 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, reactive } from "vue";
 import { uid, useQuasar } from "quasar";
+import { useStoreEntries } from "src/stores/storeEntries";
 import { usecurrencify } from "src/use/useCurrency";
 import { useTextColor } from "src/use/useTextColor";
 
+// stores
+const storeEntries = useStoreEntries();
+
 const $q = useQuasar();
-const entries = ref([
-  {
-    id: 0,
-    name: "salary",
-    amount: 1599.99,
-  },
-  {
-    id: 1,
-    name: "rent",
-    amount: -990.0,
-  },
-  {
-    id: 2,
-    name: "phone",
-    amount: -49.0,
-  },
-  {
-    id: 3,
-    name: "random",
-    amount: 0.0,
-  },
-]);
-// balance
-const balance = computed(() => {
-  return entries.value.reduce((acc, { amount }) => {
-    return acc + amount;
-  }, 0);
-});
 
 const nameRef = ref(null);
 
@@ -116,12 +95,6 @@ const newEntryForm = reactive({
 const resetEntryForm = () => {
   Object.assign(newEntryForm, addEntryformDefault);
   nameRef.value.focus();
-};
-
-const addEntry = () => {
-  const newEntry = Object.assign({}, newEntryForm, { id: uid() });
-  entries.value.push(newEntry);
-  resetEntryForm();
 };
 
 // slide items
@@ -167,5 +140,10 @@ const deleteEntry = (entryId) => {
     message: "Entry deleted",
     position: "top-right",
   });
+};
+
+const addEntryformSubmit = () => {
+  storeEntries.addEntry(newEntryForm);
+  resetEntryForm();
 };
 </script>
