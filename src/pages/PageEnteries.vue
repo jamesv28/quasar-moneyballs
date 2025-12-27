@@ -4,8 +4,8 @@
       <q-slide-item
         v-for="entry in entries"
         :key="entry.id"
-        @left="onLeft"
-        @right="onRight"
+        @left="onLeftSwipeEntry($event, entry)"
+        @right="onRightSwipeEntry($event, entry)"
         left.color="positive"
         right.color="negative"
       >
@@ -68,10 +68,11 @@
 
 <script setup>
 import { ref, computed, reactive } from "vue";
-import { uid } from "quasar";
+import { uid, useQuasar } from "quasar";
 import { usecurrencify } from "src/use/useCurrency";
 import { useTextColor } from "src/use/useTextColor";
 
+const $q = useQuasar();
 const entries = ref([
   {
     id: 0,
@@ -121,5 +122,45 @@ const addEntry = () => {
   const newEntry = Object.assign({}, newEntryForm, { id: uid() });
   entries.value.push(newEntry);
   resetEntryForm();
+};
+
+// slide items
+const onRightSwipeEntry = ({ reset }, entry) => {
+  $q.dialog({
+    title: "Delete Entry",
+    message: `
+    Delete Entry?
+    <div class="text-weight-bold mt-md ${useTextColor(entry.amount)}">
+      ${entry.name} - ${usecurrencify(entry.amount)} 
+    </div>
+    `,
+    cancel: true,
+    persistent: true,
+    html: true,
+    ok: {
+      label: "Delete",
+      color: "negative",
+      noCaps: true,
+    },
+    cancel: {
+      color: "positive",
+      noCaps: true,
+    },
+  })
+    .onOk(() => {
+      deleteEntry(entry.id);
+    })
+    .onCancel(() => {
+      reset();
+    });
+};
+
+const onLeftSwipeEntry = ({ reset }, entry) => {
+  console.log("swiped left");
+};
+
+const deleteEntry = (entryId) => {
+  const idx = entries.value.findIndex((entry) => entry.id === entryId);
+  entries.value.splice(idx, 1);
 };
 </script>
