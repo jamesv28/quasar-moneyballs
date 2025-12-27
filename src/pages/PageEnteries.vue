@@ -131,7 +131,7 @@ const onRightSwipeEntry = ({ reset }, entry) => {
     message: `
     Delete Entry?
     <div class="text-weight-bold mt-md ${useTextColor(entry.amount)}">
-      ${entry.name} - ${usecurrencify(entry.amount)} 
+      ${entry.name} - ${usecurrencify(entry.amount)}
     </div>
     `,
     cancel: true,
@@ -162,5 +162,10 @@ const onLeftSwipeEntry = ({ reset }, entry) => {
 const deleteEntry = (entryId) => {
   const idx = entries.value.findIndex((entry) => entry.id === entryId);
   entries.value.splice(idx, 1);
+  $q.notify({
+    type: "positive",
+    message: "Entry deleted",
+    position: "top-right",
+  });
 };
 </script>
