@@ -71,7 +71,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import { uid, useQuasar } from "quasar";
+import { useQuasar } from "quasar";
 import { useStoreEntries } from "src/stores/storeEntries";
 import { usecurrencify } from "src/use/useCurrency";
 import { useTextColor } from "src/use/useTextColor";
@@ -121,7 +121,7 @@ const onRightSwipeEntry = ({ reset }, entry) => {
     },
   })
     .onOk(() => {
-      deleteEntry(entry.id);
+      storeEntries.deleteEntry(entry.id);
     })
     .onCancel(() => {
       reset();
@@ -130,16 +130,6 @@ const onRightSwipeEntry = ({ reset }, entry) => {
 
 const onLeftSwipeEntry = ({ reset }, entry) => {
   console.log("swiped left");
-};
-
-const deleteEntry = (entryId) => {
-  const idx = entries.value.findIndex((entry) => entry.id === entryId);
-  entries.value.splice(idx, 1);
-  $q.notify({
-    type: "positive",
-    message: "Entry deleted",
-    position: "top-right",
-  });
 };
 
 const addEntryformSubmit = () => {

@@ -1,6 +1,6 @@
 import { ref, computed, reactive } from "vue";
 import { defineStore } from "pinia";
-import { uid } from "quasar";
+import { uid, Notify } from "quasar";
 
 export const useStoreEntries = defineStore("entries", () => {
   // state
@@ -40,6 +40,16 @@ export const useStoreEntries = defineStore("entries", () => {
     entries.value.push(newEntry);
     // resetEntryForm();
   };
+
+  const deleteEntry = (entryId) => {
+    const idx = entries.value.findIndex((entry) => entry.id === entryId);
+    entries.value.splice(idx, 1);
+    Notify.create({
+      type: "positive",
+      message: "Entry deleted",
+      position: "top-right",
+    });
+  };
   // return state, getters, and actions
-  return { entries, balance, addEntry };
+  return { entries, balance, addEntry, deleteEntry };
 });
