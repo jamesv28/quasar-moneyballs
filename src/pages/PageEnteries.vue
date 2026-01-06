@@ -26,15 +26,7 @@
     </q-list>
 
     <q-footer class="bg-transparent">
-      <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
-        <div class="col text-grey-7 text-h6">Balance:</div>
-        <div
-          :class="useTextColor(storeEntries.balance)"
-          class="col text-h6 text-right"
-        >
-          {{ usecurrencify(storeEntries.balance) }}
-        </div>
-      </div>
+      <Balance />
       <q-form
         @submit="addEntryformSubmit"
         class="row q-pa-md q-pb-sm q-gutter-sm bg-primary"
@@ -75,12 +67,11 @@ import { useQuasar } from "quasar";
 import { useStoreEntries } from "src/stores/storeEntries";
 import { usecurrencify } from "src/use/useCurrency";
 import { useTextColor } from "src/use/useTextColor";
+import Balance from "src/components/entries/Balance.vue";
 
 // stores
 const storeEntries = useStoreEntries();
-
 const $q = useQuasar();
-
 const nameRef = ref(null);
 
 const addEntryformDefault = {
