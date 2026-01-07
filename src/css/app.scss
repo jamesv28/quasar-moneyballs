@@ -1,3 +1,13 @@
+// letter spacing
+.letter-spacing-none {
+  letter-spacing: 0;
+}
+
+.q-popup-edit__buttons {
+  .q-btn {
+    text-transform: none;
+  }
+}
 // app global css in SCSS form
 .q-drawer {
   .q-item {

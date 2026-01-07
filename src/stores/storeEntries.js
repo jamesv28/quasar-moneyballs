@@ -50,6 +50,12 @@ export const useStoreEntries = defineStore("entries", () => {
       position: "top-right",
     });
   };
+
+  const updateEntry = (entryId, update) => {
+    const idx = entries.value.findIndex((entry) => entry.id === entryId);
+    Object.assign(entries.value[idx], update);
+  };
+
   // return state, getters, and actions
-  return { entries, balance, addEntry, deleteEntry };
+  return { entries, balance, addEntry, deleteEntry, updateEntry };
 });

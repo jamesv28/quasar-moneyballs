@@ -12,10 +12,53 @@
       <q-icon name="delete" />
     </template>
     <q-item class="text-weight-bold" :class="useTextColor(entry.amount)">
-      <q-item-section> {{ entry.name }} </q-item-section>
+      <q-item-section>
+        {{ entry.name }}
+        <q-popup-edit
+          @save="onNameUpdate"
+          :model-value="entry.name"
+          v-slot="scope"
+          :cover="false"
+          :offset="[16, 12]"
+          anchor="top left"
+          label-set="Ok"
+          auto-save
+          buttons
+        >
+          <q-input
+            v-model="scope.value"
+            @keyup.enter="scope.set"
+            input-class="text-weight-bold letter-spacing-none"
+            autofocus
+            dense
+          />
+        </q-popup-edit>
+      </q-item-section>
 
       <q-item-section side>
         {{ usecurrencify(entry.amount) }}
+        <q-popup-edit
+          @save="onAmountUpdate"
+          :model-value="entry.amount"
+          auto-save
+          v-slot="scope"
+          anchor="top left"
+          :cover="false"
+          :offset="[16, 12]"
+          buttons
+          label-set="ok"
+        >
+          <q-input
+            v-model.number="scope.value"
+            dense
+            autofocus
+            input-class="text-weight-bold"
+            type="number"
+            setup="0.01"
+            @keyup.enter="scope.set"
+            class="letter-spacing-none text-right"
+          />
+        </q-popup-edit>
       </q-item-section>
     </q-item>
   </q-slide-item>
@@ -69,5 +112,13 @@ const onRightSwipeEntry = ({ reset }) => {
 
 const onLeftSwipeEntry = ({ reset }, entry) => {
   console.log("swiped left");
+};
+
+const onNameUpdate = (value) => {
+  storeEntries.updateEntry(props.entry.id, { name: value });
+};
+
+const onAmountUpdate = (value) => {
+  storeEntries.updateEntry(props.entry.id, { amount: value });
 };
 </script>
