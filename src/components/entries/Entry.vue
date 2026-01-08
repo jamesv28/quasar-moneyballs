@@ -110,8 +110,9 @@ const onRightSwipeEntry = ({ reset }) => {
     });
 };
 
-const onLeftSwipeEntry = ({ reset }, entry) => {
-  console.log("swiped left");
+const onLeftSwipeEntry = ({ reset }) => {
+  storeEntries.updateEntry(props.entry.id, { paid: !props.entry.paid });
+  reset();
 };
 
 const onNameUpdate = (value) => {
