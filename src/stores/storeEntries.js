@@ -38,6 +38,11 @@ export const useStoreEntries = defineStore("entries", () => {
     }, 0);
   });
 
+  const balancePaid = computed(() => {
+    return entries.value.reduce((acc, { amount, paid }) => {
+      return paid ? acc + amount : acc;
+    }, 0);
+  });
   // actions
   const addEntry = (addEntryForm) => {
     const newEntry = Object.assign({}, addEntryForm, {
@@ -64,5 +69,5 @@ export const useStoreEntries = defineStore("entries", () => {
   };
 
   // return state, getters, and actions
-  return { entries, balance, addEntry, deleteEntry, updateEntry };
+  return { entries, balance, balancePaid, addEntry, deleteEntry, updateEntry };
 });

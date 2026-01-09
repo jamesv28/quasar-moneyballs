@@ -4,6 +4,7 @@
     @right="onRightSwipeEntry($event, entry)"
     left.color="positive"
     right.color="negative"
+    :class="{ 'bg-grey-2': entry.paid }"
   >
     <template v-slot:left>
       <q-icon name="done" />
@@ -11,7 +12,10 @@
     <template v-slot:right>
       <q-icon name="delete" />
     </template>
-    <q-item class="text-weight-bold" :class="useTextColor(entry.amount)">
+    <q-item
+      class="text-weight-bold"
+      :class="[useTextColor(entry.amount), { 'text-strike': entry.paid }]"
+    >
       <q-item-section>
         {{ entry.name }}
         <q-popup-edit

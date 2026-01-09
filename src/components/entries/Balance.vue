@@ -1,11 +1,26 @@
 <template>
-  <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
+  <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3 align-center">
     <div class="col text-grey-7 text-h6">Balance:</div>
     <div
       :class="useTextColor(storeEntries.balance)"
       class="col text-h6 text-right"
     >
-      {{ usecurrencify(storeEntries.balance) }}
+      <div class="row">
+        <div class="col">
+          {{ usecurrencify(storeEntries.balance) }}
+        </div>
+      </div>
+      <div class="row" v-if="storeEntries.balancePaid">
+        <div class="col text-caption text-grey-6">
+          Paid:
+          <span
+            class="text-weight-bold"
+            :class="useTextColor(storeEntries.balcnePaid)"
+          >
+            {{ usecurrencify(storeEntries.balancePaid) }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
